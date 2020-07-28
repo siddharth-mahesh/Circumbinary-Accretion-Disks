@@ -1,4 +1,4 @@
-import numpy as np
+from numpy import sin , cos
 import Potential.py as pt
 
 ## solution outputted as r , pr , l , t
@@ -32,8 +32,8 @@ def l_m(params):
 
 def modewise_pert_sol(phi,params):
     r_0 , m = params[0] , params[2]
-    s_phi = np.sin(phi)
-    c_phi = np.cos(phi)
+    s_phi = sin(m*phi)
+    c_phi = cos(m*phi)
     R_m = r_m(params)
     L_m = l_m(params)
     omega_0 = omega(r_0)
