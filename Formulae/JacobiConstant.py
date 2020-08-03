@@ -13,7 +13,7 @@ def backg_C_j(params):
     phase_space = sol.backg_sol(0,params)
     phi_grav = pt.backg_Phi(params)
     r , pr , l = phase_space[0] , phase_space[1] , phase_space[2]
-    return kinetic_energy(r,pr,l) + phi_grav
+    return -(kinetic_energy(r,pr,l) + phi_grav)
 
 ## Define the background quadrupole Jacobi constant
 
@@ -21,7 +21,7 @@ def backg_quad_C_j(params):
     phase_space = sol.backg_sol(0,params)
     phi_grav = pt.backg_Phi(params) + pt.backg_multipole_Phi(2,params)
     r , pr , l = phase_space[0] , phase_space[1] , phase_space[2]
-    return kinetic_energy(r,pr,l) + phi_grav
+    return -(kinetic_energy(r,pr,l) + phi_grav)
 
 ## Define the modewise O(\epsilon) corrections to the Jacobi constant
 
@@ -33,7 +33,7 @@ def modewise_C_j(params):
     r03 = r02*r0
     r1 = sol.r_m(params)
     l1 = sol.l_m(params)
-    return (2/m/pi)*(-l1 + l0*l1/(r02) - l0*l0*r1/(r03) + pt.modewise_Phi_grav(params))
+    return -(2/m/pi)*(-l1 + l0*l1/(r02) - l0*l0*r1/(r03) + pt.modewise_Phi_grav(params))
 
 ## Define the total O(\epsilon) corrections to the Jacobi constant
 
