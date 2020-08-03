@@ -5,7 +5,6 @@ from numpy import pi
 ## Define the general kinetic term
 
 def kinetic_energy(r,pr,l):
-    r = params[0]
     return (pr*pr + l*l/r/r)/2 - l
 
 ## Define the background Jacobi constant
@@ -34,13 +33,13 @@ def modewise_C_j(params):
     r03 = r02*r0
     r1 = sol.r_m(params)
     l1 = sol.l_m(params)
-    return (2/m/pi)(-l1 + l0*l1/(r02) - l0*l0*r1/(r03) + pt.modewise_Phi_grav(params))
+    return (2/m/pi)*(-l1 + l0*l1/(r02) - l0*l0*r1/(r03) + pt.modewise_Phi_grav(params))
 
 ## Define the total O(\epsilon) corrections to the Jacobi constant
 
 def pert_C_j(params):
     r , q , mmax = params[0] , params[1] , params[2]
     c_j = backg_C_j(params)
-    for m in range(mmax):
+    for m in range(1,mmax):
         c_j += modewise_C_j([r,q,m])
     return c_j

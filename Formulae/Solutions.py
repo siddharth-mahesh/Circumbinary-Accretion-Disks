@@ -9,7 +9,7 @@ def omega(r):
 ## define the background solutions
 
 def backg_sol(phi,params):
-    params[0] = r_0
+    r_0 = params[0]
     omega_0 = omega(r_0)
     return [r_0 , 0 , (omega_0 + 1)**(-1/3) , phi/omega_0]
 
@@ -19,15 +19,15 @@ def r_m(params):
     r_0 , q , m = params[0] , params[1] , params[2]
     omega_0 = omega(r_0)
     omega_bar = 1 + 1/omega_0
-    psi_m = pt.phi_grav(r_0,q)
-    dpsi_m = pt.dphi_grav(r_0,q)
+    psi_m = pt.modewise_Phi_grav(params)
+    dpsi_m = pt.modewise_dPhi_grav(params)
     delta_m = m*m - omega_bar*omega_bar
     return (2*omega_bar*psi_m + r_0*dpsi_m)/(r_0*omega_0*omega_0*delta_m)
 
 def l_m(params):
     r_0 , q , m = params[0] , params[1] , params[2]
     omega_0 = omega(r_0)
-    psi_m = pt.phi_grav(r_0,q)
+    psi_m = pt.modewise_Phi_grav(params)
     return -psi_m/omega_0
 
 def modewise_pert_sol(phi,params):
