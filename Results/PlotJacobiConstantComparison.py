@@ -17,6 +17,6 @@ plt.savefig("JacobiConstantComparison.png")
 
 plt.plot(mass_ratio,np.log10(relative_error))
 plt.xlabel(r"Mass ratio: $m_2/M$")
-plt.ylabel(r"Relative Error in Jacobi Constant")
+plt.ylabel(r"Log Relative Error in Jacobi Constant")
 plt.show()
 plt.savefig("JacobiConstantError.png")
