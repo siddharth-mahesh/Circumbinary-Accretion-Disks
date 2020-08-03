@@ -1,4 +1,4 @@
-import Potential.py as pt
+import Potentials as pt
 import Solutions as sol
 from numpy import pi
 

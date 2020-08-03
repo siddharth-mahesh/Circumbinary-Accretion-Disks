@@ -1,5 +1,5 @@
 from numpy import sin , cos
-import Potential.py as pt
+import Potentials as pt
 
 ## solution outputted as r , pr , l , t
 
