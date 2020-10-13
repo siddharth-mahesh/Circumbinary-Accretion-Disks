@@ -44,6 +44,17 @@ def modewise_dPhi_grav(params):
     dpmn += 2*(l+1)*Q_l*W_lm*W_lm/(r**(l+2))
   return dpmn
 
+def modewise_ddPhi_grav(params):
+  r , q , m = params[0] , params[1] , params[2]
+  lmin = max(2,m)
+  lmax = lmin + 6
+  ddpmn = 0
+  for l in range(lmin,lmax+1):
+    Q_l = ((1-q)*(-q)**l + q*((1-q)**l))
+    W_lm = W(l,m)
+    ddpmn -= 2*(l+2)*(l+1)*Q_l*W_lm*W_lm/(r**(l+3))
+  return ddpmn    
+
 ## define the perturbed potential
 
 def pert_Phi(phi,params):

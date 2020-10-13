@@ -6,6 +6,13 @@ import Potentials as pt
 def omega(r):
     return r**(-1.5) - 1
 
+def omega1(backg_sol,pert_sol,params):
+    r0 = params[0]
+    r0inv = 1/r0
+    r0_m2 = r0inv*r0inv
+    r0_m3 = r0inv*r0_m2
+    return pert_sol[2]*r0_m2 - 2*backg_sol[2]*pert_sol[1]*r0_m3
+
 ## define the background solutions
 
 def backg_sol(phi,params):
