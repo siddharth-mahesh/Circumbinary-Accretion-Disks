@@ -14,7 +14,7 @@ results_path = os.path.join(repo_path,"Results")
 print("initializing arrays")
 ## set choices for mass ratios and radio
 
-mass_ratios = np.arange(0.1,0.5+0.1,0.1)
+mass_ratios = np.arange(0.0,0.5+0.1,0.1)
 avg_radii = np.arange(1.33,3,0.05)
 
 print("primary computation")
@@ -24,10 +24,13 @@ import StabilityMatrix as sm
 from scipy.linalg import eigvals
 
 mmax = 3
-mmin = 2
+mmin = 1
 res_index_file = open(os.path.join(results_path,"LyapExpComputationLabels.txt"),"w")
 res_index_file.write("r_avg \t l0 \t l1 \t l2 \t l3")
 res_index_file.close()
+
+test_file_name = "test_keplerian.txt"
+test_file = open(os.path.join(results_path,test_file_name),"w")
 
 for i in range(len(mass_ratios)):
     q = mass_ratios[i]
@@ -38,7 +41,9 @@ for i in range(len(mass_ratios)):
         params = [avg_radii[j],mass_ratios[i],mmax,mmin]
         stability_mat = sm.K(params)
         lyapexps = eigvals(stability_mat)
+        if i == 0:
+            test_file.write("%f \t %f \t %f \t %f \t %f \n"%(avg_radii[j],lyapexps[0].imag,lyapexps[1].imag,lyapexps[2].imag,lyapexps[3].imag))
         res_file.write("%f \t %f \t %f \t %f \t %f \n"%(avg_radii[j],lyapexps[0].real,lyapexps[1].real,lyapexps[2].real,lyapexps[3].real))
     res_file.close()
-
+test_file.close()
 print("done")
