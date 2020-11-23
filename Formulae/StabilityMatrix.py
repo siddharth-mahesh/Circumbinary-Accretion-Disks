@@ -22,7 +22,7 @@ def K0(sol_backg):
     r0inv = 1/r0
     r0_m2 = r0inv*r0inv
     r0_m3 = r0_m2*r0inv
-    return np.array([[0.,0.,1.,0.],[-2.*l0*r0inv,0.,0.,r0_m2],[-r0_m3,0.,0.,2*l0*r0_m3],[0.,0.,0.,0.]])
+    return np.array([[0.,0.,1.,0.],[-2.*l0*r0_m3,0.,0.,r0_m2],[-r0_m3,0.,0.,2*l0*r0_m3],[0.,0.,0.,0.]])
 
 ## define the modewise perturbed solution matrix
 
