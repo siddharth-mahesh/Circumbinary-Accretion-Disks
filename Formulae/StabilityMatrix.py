@@ -14,7 +14,7 @@ def pert_sol(params):
     dphi = pt.modewise_dPhi_grav(params)
     backg_sol = unpert_sol(params)
     r0 , omega0 = backg_sol[0] , backg_sol[1]
-    D = (omega0 - 1)**2 - (m*omega0)**2
+    D = (omega0 + 1)**2 - (m*omega0)**2
     return [-(2.*phi*(1 + 1/omega0)/r0 + dphi)/np.abs(D),-phi/omega0]
 
 def K0(sol_backg):
@@ -22,13 +22,15 @@ def K0(sol_backg):
     r0inv = 1/r0
     r0_m2 = r0inv*r0inv
     r0_m3 = r0_m2*r0inv
-    return np.array([[0.,0.,1.,0.],[-2.*l0*r0_m3,0.,0.,r0_m2],[-r0_m3,0.,0.,2*l0*r0_m3],[0.,0.,0.,0.]])
+    mat_0 = np.array([[0.,0.,1.,0.],[-2.*l0*r0_m3,0.,0.,r0_m2],[-r0_m3,0.,0.,2*l0*r0_m3],[0.,0.,0.,0.]])
+    #print(mat_0)
+    return mat_0
 
 ## define the modewise perturbed solution matrix
 
 def K1(sol_pert,sol_backg,params):
     m = params[2]
-    print("m = ", m)
+    #print("m = ", m)
     r0 , l0 = sol_backg[0] , sol_backg[2]
     r0_inv = 1/r0
     r0_m2 = r0_inv*r0_inv
@@ -37,9 +39,9 @@ def K1(sol_pert,sol_backg,params):
     phi = pt.modewise_Phi_grav(params)
     dphi = pt.modewise_dPhi_grav(params)
     ddphi = pt.modewise_ddPhi_grav(params)
-    print(phi,'\n',dphi,'\n',ddphi)
+    #print(phi,'\n',dphi,'\n',ddphi)
     r1 , l1 = sol_pert[0],sol_pert[1]
-    print(r1,'\n',l1)
+    #print(r1,'\n',l1)
     Kpert = np.zeros([4,4])
     Kpert[1][0] = -2.*(l1*r0_m3 - 3.*l0*r1*r0_m4)
     Kpert[1][3] = -2.*r1*r0_m3
