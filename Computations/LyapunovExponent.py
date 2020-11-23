@@ -34,10 +34,12 @@ test_file = open(os.path.join(results_path,test_file_name),"w")
 
 for i in range(len(mass_ratios)):
     q = mass_ratios[i]
+    print("q = ",q)
     res_file_name = "LyapExpComputation"+str(int(10*q))+".txt"
     res_file = open(os.path.join(results_path,res_file_name),"w")
     print("mass ratio : %f"%(q))
     for j in range(len(avg_radii)):
+        print("r = ", avg_radii[j])
         params = [avg_radii[j],mass_ratios[i],mmax,mmin]
         stability_mat = sm.K(params)
         lyapexps = eigvals(stability_mat)

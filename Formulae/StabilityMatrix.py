@@ -28,6 +28,7 @@ def K0(sol_backg):
 
 def K1(sol_pert,sol_backg,params):
     m = params[2]
+    print("m = ", m)
     r0 , l0 = sol_backg[0] , sol_backg[2]
     r0_inv = 1/r0
     r0_m2 = r0_inv*r0_inv
@@ -36,7 +37,9 @@ def K1(sol_pert,sol_backg,params):
     phi = pt.modewise_Phi_grav(params)
     dphi = pt.modewise_dPhi_grav(params)
     ddphi = pt.modewise_ddPhi_grav(params)
+    print(phi,'\n',dphi,'\n',ddphi)
     r1 , l1 = sol_pert[0],sol_pert[1]
+    print(r1,'\n',l1)
     Kpert = np.zeros([4,4])
     Kpert[1][0] = -2.*(l1*r0_m3 - 3.*l0*r1*r0_m4)
     Kpert[1][3] = -2.*r1*r0_m3
@@ -45,7 +48,7 @@ def K1(sol_pert,sol_backg,params):
     Kpert[2][3] = 2.*(l1*r0_m3 - 3.*l0*r1*r0_m4)
     Kpert[3][0] = m*dphi
     Kpert[3][1] = m*m*phi
-    print(Kpert)
+    #print(Kpert)
     return Kpert
 ## define the averaged stability matrix
 
@@ -57,6 +60,6 @@ def K(params):
     for m in range(mmin,mmax):
         new_params = [params[0],params[1],m]
         sol_pert = pert_sol(new_params)
-        mat_1 = K1(sol_pert,sol_backg,params)
+        mat_1 = K1(sol_pert,sol_backg,new_params)
         mat += mat_1/m/np.pi
     return mat
