@@ -9,6 +9,8 @@ for i in range(5):
     max_lyap = np.array([max(data[j,1:]) for j in range(len(data))])
     plt.plot(r,np.log10(max_lyap),label = data_label)
 
+plt.plot(r,-np.log10(1600*2*np.pi*(r**3/2)), label = "MM2019 viscous scale")
+
 
 #plt.axhline(np.log10(1./3e-4),label = "viscous scale")
 plt.xlabel("Radial Distance")

@@ -41,12 +41,12 @@ def K1(sol_pert,sol_backg,params):
     ddphi = pt.modewise_ddPhi_grav(params)
     #print(phi,'\n',dphi,'\n',ddphi)
     r1 , l1 = sol_pert[0],sol_pert[1]
-    print("r1 = ", r1/np.sqrt(2))
-    print("l1 = ", l1/np.sqrt(2))
+    #print("r1 = ", r1/np.sqrt(2))
+    #print("l1 = ", l1/np.sqrt(2))
     #print(r1,'\n',l1)
     Kpert = np.zeros([4,4])
     Kpert[1][0] = -2.*(l1*r0_m3 - 3.*l0*r1*r0_m4)
-    print("K_p_1,0 = " , Kpert[1][0]/np.sqrt(2))
+    #print("K_p_1,0 = " , Kpert[1][0]/np.sqrt(2))
     Kpert[1][3] = -2.*r1*r0_m3
     Kpert[2][0] = -6.*l0*l1*r0_m4 + 6.*r1*r0_m4 - ddphi
     Kpert[2][1] = m*dphi
@@ -61,11 +61,11 @@ def K(params):
     mmin , mmax = params[3] , params[2]
     sol_backg = unpert_sol(params)
     mat = K0(sol_backg)
-    print("K0 = ", mat)
+    #print("K0 = ", mat)
     for m in range(mmin,mmax):
         new_params = [params[0],params[1],m]
         sol_pert = pert_sol(new_params)
         mat_1 = K1(sol_pert,sol_backg,new_params)
-        print("K1 = ", mat_1/np.sqrt(2))
+        #print("K1 = ", mat_1/np.sqrt(2))
         mat += mat_1/np.sqrt(2)
     return mat

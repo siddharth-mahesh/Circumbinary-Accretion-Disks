@@ -15,7 +15,7 @@ print("initializing arrays")
 ## set choices for mass ratios and radio
 
 mass_ratios = np.arange(0.0,0.5+0.1,0.1)
-avg_radii = np.arange(1.33,3,0.05)
+avg_radii = np.arange(1.10,3,0.001)
 
 print("primary computation")
 ## compute the jacobi constants
@@ -42,9 +42,9 @@ for i in range(len(mass_ratios)):
         print("r = ", avg_radii[j])
         params = [avg_radii[j],mass_ratios[i],mmax,mmin]
         stability_mat = sm.K(params)
-        print(stability_mat)
+        #print(stability_mat)
         lyapexps = eigvals(stability_mat)
-        print(lyapexps)
+        #print(lyapexps)
         if i == 0:
             test_file.write("%f \t %f \t %f \t %f \t %f \n"%(avg_radii[j],lyapexps[0].imag,lyapexps[1].imag,lyapexps[2].imag,lyapexps[3].imag))
         res_file.write("%f \t %f \t %f \t %f \t %f \n"%(avg_radii[j],lyapexps[0].real,lyapexps[1].real,lyapexps[2].real,lyapexps[3].real))
