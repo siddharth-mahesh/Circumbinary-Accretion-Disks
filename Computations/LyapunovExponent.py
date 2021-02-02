@@ -15,16 +15,21 @@ print("initializing arrays")
 ## set choices for mass ratios and radio
 
 mass_ratios = np.arange(0.0,0.5+0.1,0.1)
+inclinations = np.arange(15,105,15)*np.pi/180
 avg_radii = np.arange(1.10,3,0.001)
 
 print("primary computation")
 ## compute the jacobi constants
 
-import StabilityMatrix as sm
+import RotatingStabilityMatrix as rsm
+import InclinedStabilityMatrix as ism
 from scipy.linalg import eigvals
 
 mmax = 3
 mmin = 1
+nmax = 5 
+nmin = 1
+
 res_index_file = open(os.path.join(results_path,"LyapExpComputationLabels.txt"),"w")
 res_index_file.write("r_avg \t l0 \t l1 \t l2 \t l3")
 res_index_file.close()
@@ -32,22 +37,50 @@ res_index_file.close()
 test_file_name = "test_keplerian.txt"
 test_file = open(os.path.join(results_path,test_file_name),"w")
 
-for i in range(len(mass_ratios)):
-    q = mass_ratios[i]
-    print("q = ",q)
-    res_file_name = "LyapExpComputation"+str(int(10*q))+".txt"
-    res_file = open(os.path.join(results_path,res_file_name),"w")
-    print("mass ratio : %f"%(q))
-    for j in range(len(avg_radii)):
-        print("r = ", avg_radii[j])
-        params = [avg_radii[j],mass_ratios[i],mmax,mmin]
-        stability_mat = sm.K(params)
-        #print(stability_mat)
-        lyapexps = eigvals(stability_mat)
-        #print(lyapexps)
-        if i == 0:
-            test_file.write("%f \t %f \t %f \t %f \t %f \n"%(avg_radii[j],lyapexps[0].imag,lyapexps[1].imag,lyapexps[2].imag,lyapexps[3].imag))
-        res_file.write("%f \t %f \t %f \t %f \t %f \n"%(avg_radii[j],lyapexps[0].real,lyapexps[1].real,lyapexps[2].real,lyapexps[3].real))
-    res_file.close()
+inclined = 0
+
+if inclined == 0:
+    for i in range(len(mass_ratios)):
+        q = mass_ratios[i]
+        res_file_name = "CoplanarLyapExpComputation"+str(int(10*q))+".txt"
+        res_file = open(os.path.join(results_path,res_file_name),"w")
+        print("mass ratio : %f"%(q))
+        for j in range(len(avg_radii)):
+            #print("r = ", avg_radii[j])
+            params = [avg_radii[j],mass_ratios[i],0.0,mmin,nmin,mmax,nmax]
+            stability_mat = rsm.K(params)
+            #print(stability_mat)
+            lyapexps = eigvals(stability_mat)
+            #print(lyapexps)
+            if i == 0:
+                test_file.write("%f \t %f \t %f \t %f \t %f \n"%(avg_radii[j],lyapexps[0].imag,lyapexps[1].imag,lyapexps[2].imag,lyapexps[3].imag))
+            res_file.write("%f \t %f \t %f \t %f \t %f \n"%(avg_radii[j],lyapexps[0].real,lyapexps[1].real,lyapexps[2].real,lyapexps[3].real))
+        res_file.close()
+
+inclined = 1
+
+if inclined == 1:
+    for i in range(len(mass_ratios)):
+        q = mass_ratios[i]
+        print("mass ratio : %f"%(q))
+        for j in range(len(inclinations)):
+            inc = j*15
+            print("inclination : %f"%(inc))
+            res_file_name = "InclinedLyapExpComputation_q"+str(int(10*q))+"_i"+str(inc)+".txt"
+            res_file = open(os.path.join(results_path,res_file_name),"w")
+            for k in range(len(avg_radii)):
+                #print("r = ", avg_radii[k])
+                params = [avg_radii[k],mass_ratios[i],inclinations[j],mmin,nmin,mmax,nmax]
+                stability_mat = ism.K(params)
+                #print(stability_mat)
+                lyapexps = eigvals(stability_mat)
+                #print(lyapexps)
+                if i == 0 and j == 0:
+                    test_file.write("%f \t %f \t %f \t %f \t %f \n"%(avg_radii[k],lyapexps[0].imag,lyapexps[1].imag,lyapexps[2].imag,lyapexps[3].imag))
+                res_file.write("%f \t %f \t %f \t %f \t %f \n"%(avg_radii[k],lyapexps[0].real,lyapexps[1].real,lyapexps[2].real,lyapexps[3].real))
+            res_file.close()
+            if i == 0:
+                break
+
 test_file.close()
 print("done")

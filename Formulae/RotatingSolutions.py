@@ -1,12 +1,12 @@
 from numpy import sin , cos
 import Potentials as pt
 
-## solution outputted as r , pr , l , t
+## solution outputted as r , pr , l 
 
-def omega(r):
+def omega_rotating(r):
     return r**(-1.5) - 1
 
-def omega1(backg_sol,pert_sol,params):
+def omega1_rotating(backg_sol,pert_sol,params):
     r0 = params[0]
     r0inv = 1/r0
     r0_m2 = r0inv*r0inv
@@ -15,15 +15,15 @@ def omega1(backg_sol,pert_sol,params):
 
 ## define the background solutions
 
-def backg_sol(phi,params):
+def backg_sol_rotating(phi,params):
     r_0 = params[0]
-    omega_0 = omega(r_0)
+    omega_0 = omega_rotating(r_0)
     return [r_0 , 0 , (omega_0 + 1)**(-1/3) , phi/omega_0]
 
 ## define the modewise perturbed solutions
 
-def r_m(params):
-    r_0 , q , m = params[0] , params[1] , params[2]
+def r_m_rotating(params):
+    r , q , i , m , n = params[0] , params[1] , params[2] , params[3] , params[4]
     omega_0 = omega(r_0)
     omega_bar = 1 + 1/omega_0
     psi_m = pt.modewise_Phi_grav(params)
@@ -31,14 +31,14 @@ def r_m(params):
     delta_m = m*m - omega_bar*omega_bar
     return (2*omega_bar*psi_m + r_0*dpsi_m)/(r_0*omega_0*omega_0*delta_m)
 
-def l_m(params):
-    r_0 , q , m = params[0] , params[1] , params[2]
+def l_m_rotating(params):
+    r , q , i , m , n = params[0] , params[1] , params[2] , params[3] , params[4]
     omega_0 = omega(r_0)
     psi_m = pt.modewise_Phi_grav(params)
     return -psi_m/omega_0
 
-def modewise_pert_sol(phi,params):
-    r_0 , m = params[0] , params[2]
+def modewise_pert_sol_rotating(phi,params):
+    r , q , i , m , n = params[0] , params[1] , params[2] , params[3] , params[4]
     s_phi = sin(m*phi)
     c_phi = cos(m*phi)
     R_m = r_m(params)

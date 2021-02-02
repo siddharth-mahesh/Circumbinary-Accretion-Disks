@@ -9,7 +9,7 @@ def unpert_sol(params):
     return np.array([r0,r0**(-1.5)-1,0,np.sqrt(r0)])
 
 def pert_sol(params):
-    m = params[2]
+    m = params[3]
     phi = pt.modewise_Phi_grav(params)
     dphi = pt.modewise_dPhi_grav(params)
     backg_sol = unpert_sol(params)
@@ -29,7 +29,7 @@ def K0(sol_backg):
 ## define the modewise perturbed solution matrix
 
 def K1(sol_pert,sol_backg,params):
-    m = params[2]
+    m = params[3]
     #print("m = ", m)
     r0 , l0 = sol_backg[0] , sol_backg[3]
     r0_inv = 1/r0
@@ -58,12 +58,12 @@ def K1(sol_pert,sol_backg,params):
 ## define the averaged stability matrix
 
 def K(params):
-    mmin , mmax = params[3] , params[2]
+    mmin , mmax = params[3] , params[5]
     sol_backg = unpert_sol(params)
     mat = K0(sol_backg)
     #print("K0 = ", mat)
     for m in range(mmin,mmax):
-        new_params = [params[0],params[1],m]
+        new_params = [params[0],params[1],params[2],m,m]
         sol_pert = pert_sol(new_params)
         mat_1 = K1(sol_pert,sol_backg,new_params)
         #print("K1 = ", mat_1/np.sqrt(2))
