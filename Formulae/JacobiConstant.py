@@ -26,7 +26,7 @@ def backg_quad_C_j(params):
 ## Define the modewise O(\epsilon) corrections to the Jacobi constant
 
 def modewise_C_j(params):
-    m = params[3]
+    m = params[4]
     backg = sol.backg_sol_rotating(0,params)
     r0 , l0 = backg[0] , backg[2]
     r02 = r0*r0
@@ -38,8 +38,8 @@ def modewise_C_j(params):
 ## Define the total O(\epsilon) corrections to the Jacobi constant
 
 def pert_C_j(params):
-    r , q , mmax = params[0] , params[1] , params[2]
+    mmax = params[4]
     c_j = backg_C_j(params)
     for m in range(1,mmax):
-        c_j += modewise_C_j([r,q,m])
+        c_j += modewise_C_j([params[0],params[1],params[2],params[3],m,m])
     return c_j

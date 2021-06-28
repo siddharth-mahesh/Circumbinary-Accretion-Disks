@@ -4,7 +4,7 @@ import numpy as np
 
 print("setting up paths")
 ## edit only this path to where you are storing the repo
-repo_path = os.path.join(r"C:\Users","Siddharth Mahesh","Documents\GitHub\Circumbinary-Accretion-Disks")
+repo_path = os.path.join(r"C:\Users","siddh","Documents\GitHub\Circumbinary-Accretion-Disks")
 
 ## no need to edit these paths
 formulae_path = os.path.join(repo_path,"Formulae")
@@ -15,11 +15,12 @@ print("initializing arrays")
 ## set choices for mass ratios and radio
 
 mass_ratios = np.arange(0.0,0.5+0.1,0.1)
-inclinations = np.arange(15,105,15)*np.pi/180
+inclinations = np.arange(0,105,15)*np.pi/180
+eccentricity = np.arange(0.0,0.5,0.1)
 avg_radii = np.arange(1.10,3,0.001)
 
 print("primary computation")
-## compute the jacobi constants
+## compute the lyapunov exponents
 
 import RotatingStabilityMatrix as rsm
 import InclinedStabilityMatrix as ism
@@ -38,6 +39,7 @@ test_file_name = "test_keplerian.txt"
 test_file = open(os.path.join(results_path,test_file_name),"w")
 
 inclined = 0
+eccentric = 0
 
 if inclined == 0:
     for i in range(len(mass_ratios)):
@@ -47,7 +49,7 @@ if inclined == 0:
         print("mass ratio : %f"%(q))
         for j in range(len(avg_radii)):
             #print("r = ", avg_radii[j])
-            params = [avg_radii[j],mass_ratios[i],0.0,mmin,nmin,mmax,nmax]
+            params = [avg_radii[j],mass_ratios[i],0.0,0.0,mmin,nmin,mmax,nmax]
             stability_mat = rsm.K(params)
             #print(stability_mat)
             lyapexps = eigvals(stability_mat)
@@ -58,19 +60,20 @@ if inclined == 0:
         res_file.close()
 
 inclined = 1
+ecc
 
 if inclined == 1:
     for i in range(len(mass_ratios)):
         q = mass_ratios[i]
         print("mass ratio : %f"%(q))
         for j in range(len(inclinations)):
-            inc = j*15
+            inc = (j)*15
             print("inclination : %f"%(inc))
             res_file_name = "InclinedLyapExpComputation_q"+str(int(10*q))+"_i"+str(inc)+".txt"
             res_file = open(os.path.join(results_path,res_file_name),"w")
             for k in range(len(avg_radii)):
                 #print("r = ", avg_radii[k])
-                params = [avg_radii[k],mass_ratios[i],inclinations[j],mmin,nmin,mmax,nmax]
+                params = [avg_radii[k],mass_ratios[i],inclinations[j],0.0,mmin,nmin,mmax,nmax]
                 stability_mat = ism.K(params)
                 #print(stability_mat)
                 lyapexps = eigvals(stability_mat)

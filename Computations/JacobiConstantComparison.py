@@ -4,7 +4,7 @@ import numpy as np
 
 print("setting up paths")
 ## edit only this path to where you are storing the repo
-repo_path = os.path.join(r"C:\Users","Siddharth Mahesh","Documents\GitHub\Circumbinary-Accretion-Disks")
+repo_path = os.path.join(r"C:\Users","siddh","Documents\GitHub\Circumbinary-Accretion-Disks")
 
 ## no need to edit these paths
 formulae_path = os.path.join(repo_path,"Formulae")

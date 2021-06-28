@@ -3,11 +3,12 @@ import matplotlib.pyplot as plt
 
 gap_sizes = []
 
-for j in range(6):
+for j in range(7):
     inc = (j)*15
     gap_sizes_for_this_inc = []
     for i in range(5):
         res_file_name = "InclinedLyapExpComputation_q"+str(i+1)+"_i"+str(inc)+".txt"
+        print(res_file_name)
         data = np.loadtxt(res_file_name)
         data_label = 'q = 0.'+str(i+1)
         r = data[:,0]
@@ -25,22 +26,41 @@ for j in range(6):
     gap_sizes.append(gap_sizes_for_this_inc)
 
 
-#gap_sizes = np.array(gap_sizes)
+gap_sizes = np.array(gap_sizes)
+#print(gap_sizes)
 #np.savetxt("inclined_gap_sizes.txt",gap_sizes)
 
 print(gap_sizes)
 
-for j in range(6):
-    inc = j*15
+for j in range(7):
+    print("j = ",j)
+    inc = (j)*15
     gaps_for_j = gap_sizes[j]
+    print(gaps_for_j)
+    print(gaps_for_j[:,0])
     data_label = "inc = "+str(inc)
-    plt.plot(gaps_for_j[:][0],gaps_for_j[:][1],label = data_label)
+    plt.plot(gaps_for_j[:,0],gaps_for_j[:,1],label = data_label)
 
 plt.ylabel("Gap Size")
 plt.xlabel("Mass Ratio")
-plt.savefig("InclinedGapSizes.png")
+plt.legend()
+#plt.tight_layout()
+plt.savefig("InclinedGapSizesByMassRatio.png")
 
 plt.show()
+
+inclinations = np.arange(0,105,15,dtype = int)
+
+for j in range(5):
+    print(gap_sizes[:,j,1])
+    data_label = r"$\mu$ = 0."+str(j+1)
+    plt.plot(inclinations,gap_sizes[:,j,1],label = data_label)
+
+plt.ylabel("Gap Size")
+plt.xlabel("Inclinations")
+plt.legend()
+#plt.tight_layout()
+plt.savefig("InclinedGapSizesByInclination.png")
 
 
 

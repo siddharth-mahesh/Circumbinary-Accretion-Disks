@@ -58,12 +58,12 @@ def K1(sol_pert,sol_backg,params):
 ## define the averaged stability matrix
 
 def K(params):
-    mmin , mmax = params[3] , params[5]
+    mmin , mmax = params[4] , params[6]
     sol_backg = unpert_sol(params)
     mat = K0(sol_backg)
     #print("K0 = ", mat)
     for m in range(mmin,mmax):
-        new_params = [params[0],params[1],params[2],m,m]
+        new_params = [params[0],params[1],params[2],params[3],m,m]
         sol_pert = pert_sol(new_params)
         mat_1 = K1(sol_pert,sol_backg,new_params)
         #print("K1 = ", mat_1/np.sqrt(2))
