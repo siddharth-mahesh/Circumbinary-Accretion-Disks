@@ -59,7 +59,29 @@ for i in range(len(mass_ratios)):
         #xgap[j] = rgap
     np.savetxt(res_file,xgap)
 
-## non-inclined eccentric case
+## non-inclined non eccentric case hi-res
+
+hires_mass_ratios = np.arange(0.05,0.51,0.01)
+xgap = np.zeros(len(hires_mass_ratios))
+alpha = 1e-3
+chi = 1e-1
+res_file = os.path.join(results_path,"FluidGapSizeCoplanarHiRes.txt")
+
+for i in range(len(hires_mass_ratios)):
+    rgap = 0
+    for m in range(1,3):
+        rgapguess = rtp.LR_location(m,m)
+        params = [rgapguess,hires_mass_ratios[i],0.0,0.0,m,m]
+        fluidparams = [params,alpha,chi]
+        zeta = rtp.zeta_T(fluidparams)
+        if zeta > 1:
+            if rgapguess > rgap:
+                rgap = rgapguess
+                rgapparams = params
+    if rgap!=0:
+        xgap[i] = rtp.find_rgap(rgapparams, [rgap+1e-10,rgap+2])
+np.savetxt(res_file,xgap)
+
     
     
 

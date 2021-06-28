@@ -26,6 +26,10 @@ import RotatingStabilityMatrix as rsm
 import InclinedStabilityMatrix as ism
 from scipy.linalg import eigvals
 
+## params get parsed to other functions and potentials as
+## r, q, i, ecc, mmin, Nmin, mmax, Nmax
+
+
 mmax = 3
 mmin = 1
 nmax = 5 
@@ -41,15 +45,16 @@ test_file = open(os.path.join(results_path,test_file_name),"w")
 inclined = 0
 eccentric = 0
 
+coplanar_mass_ratios = np.arange(0.1,0.51,0.01)
 if inclined == 0:
-    for i in range(len(mass_ratios)):
-        q = mass_ratios[i]
-        res_file_name = "CoplanarLyapExpComputation"+str(int(10*q))+".txt"
+    for i in range(len(coplanar_mass_ratios)):
+        q = coplanar_mass_ratios[i]
+        res_file_name = "CoplanarLyapExpComputation"+str(int(100*q))+".txt"
         res_file = open(os.path.join(results_path,res_file_name),"w")
         print("mass ratio : %f"%(q))
         for j in range(len(avg_radii)):
             #print("r = ", avg_radii[j])
-            params = [avg_radii[j],mass_ratios[i],0.0,0.0,mmin,nmin,mmax,nmax]
+            params = [avg_radii[j],coplanar_mass_ratios[i],0.0,0.0,mmin,nmin,mmax,nmax]
             stability_mat = rsm.K(params)
             #print(stability_mat)
             lyapexps = eigvals(stability_mat)
@@ -60,7 +65,7 @@ if inclined == 0:
         res_file.close()
 
 inclined = 1
-ecc
+eccentric = 0
 
 if inclined == 1:
     for i in range(len(mass_ratios)):

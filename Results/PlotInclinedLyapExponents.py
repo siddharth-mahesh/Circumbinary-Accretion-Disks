@@ -10,7 +10,7 @@ for j in range(7):
         res_file_name = "InclinedLyapExpComputation_q"+str(i+1)+"_i"+str(inc)+".txt"
         print(res_file_name)
         data = np.loadtxt(res_file_name)
-        data_label = 'q = 0.'+str(i+1)
+        data_label = r'$\mu$ = 0.'+str(i+1)
         r = data[:,0]
         max_lyap = np.array([max(data[k,1:]) for k in range(len(data))])
         time_scales = np.log10(1/max_lyap/2/np.pi)
