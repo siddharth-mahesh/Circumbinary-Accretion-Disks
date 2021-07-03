@@ -1,5 +1,12 @@
 import numpy as np
+import sys,os
 import matplotlib.pyplot as plt
+
+## edit this path to where you are storing the repo
+repo_path = os.path.join(r"C:\Users","siddh","Documents\GitHub\Circumbinary-Accretion-Disks")
+
+## no need to edit these paths
+data_path = os.path.join(repo_path,"Data")
 
 gap_sizes = []
 
@@ -35,9 +42,24 @@ for i in range(len(coplanar_mass_ratios)):
     
 np.savetxt("coplanar_gap_sizes.txt",gap_sizes)
 plt.plot(coplanar_mass_ratios,gap_sizes)
-plt.ylabel("Gap Size")
-plt.xlabel("Mass Ratio")
-plt.savefig("GapSizes.png")
+plt.ylabel(r'$r_\mathrm{L}$')
+plt.xlabel(r'$\mu$')
+plt.savefig("GapSizesRL.png")
+plt.show()
+
+
+numdatacoplanar = np.loadtxt(os.path.join(data_path,'aint0.dat'))
+hires_mass_ratios = np.arange(0.05,0.51,0.01)
+r_T = np.loadtxt("FluidGapSizeCoplanarHiRes.txt")
+
+plt.plot(coplanar_mass_ratios,gap_sizes,color = 'black', label = r'$r_\mathrm{L}$')
+plt.plot(hires_mass_ratios[5:],r_T[5:]*gap_sizes[-1]/r_T[-1], color = 'red',label = r'$\bar{r}_\mathrm{T}$')
+plt.scatter(1/(1+1/numdatacoplanar[:,1]),gap_sizes[-1]*numdatacoplanar[:,4]/numdatacoplanar[0,4],edgecolors = 'black',facecolors = 'none',label = r'$\bar{r}_\mathrm{1\%}$')
+plt.scatter(1/(1+1/numdatacoplanar[:,1]),gap_sizes[-1]*numdatacoplanar[:,3]/numdatacoplanar[0,3],edgecolors = 'red',facecolors = 'none',label = r'$\bar{r}_\mathrm{g}$')
+plt.ylabel(r'$r_\mathrm{gap}$')
+plt.xlabel(r'$\mu$')
+plt.legend()
+plt.savefig("GapSizesCoplanarRLR1p.png")
 plt.show()
 
 
